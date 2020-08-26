@@ -17,7 +17,15 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "standard"
+    ]
+  },
+  "standard": {
+    "env": {
+      "browser": true
+    }
   },
   "browserslist": {
     "production": [
@@ -30,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^14.1.1",
+    "standard": "^14.3.4"
   }
 }
