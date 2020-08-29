@@ -1,12 +1,12 @@
 function dispatch (entries) {
   entries.forEach(entry => {
-    const { target } = entry
+    const { target, isIntersecting } = entry
     const callback = this.callbacks.get(target)
 
     if (callback) {
       callback(entry, this)
 
-      if (this.once) {
+      if (this.once && isIntersecting) {
         this.unobserve(target)
       }
     }
@@ -43,11 +43,18 @@ export class Observer extends IntersectionObserver {
   }
 }
 
+function joinRecursive (values, separator) {
+  return values.map(value => Array.isArray(value)
+    ? joinRecursive(value, separator)
+    : value
+  ).join(separator)
+}
+
 export function searchList (list, keys, search) {
   const patters = search.split(/\s+/).map(term => new RegExp(term, 'i'))
 
   return list.filter(item => {
-    const value = keys.map(key => item[key]).join(' ')
+    const value = joinRecursive(keys.map(key => item[key]), ' ')
     return patters.every(pattern => pattern.test(value))
   })
 }
