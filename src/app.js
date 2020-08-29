@@ -1,46 +1,38 @@
-import React, { useState, useCallback, createContext, useEffect } from 'react'
-import albums from './albums.json'
-import { Bandcamp } from './bandcamp'
+import React, { useState, createContext, useEffect } from 'react'
+import config from './config.json'
+import { SearchBox } from './search-box/search-box'
+import { Player } from './player/player'
 import { useObserver } from './observer'
+import { searchList } from './lib'
 
 export const ObserverContext = createContext()
+const observerOptions = { once: true }
+
+const albums = config.albums.map(album => ({
+  ...album,
+  params: {
+    ...config.defaults,
+    ...album.params
+  }
+})).sort((a, b) => a.title < b.title ? -1 : 1)
 
 function App () {
-  const [options, setOptions] = useState()
-  const [threshold, setThreshold] = useState(0)
   const [list, setList] = useState(albums)
-
-  const removeItem = useCallback(event => {
-    const { album } = event.target.dataset
-
-    setList(list => list.filter(item =>
-      item.album !== album
-    ))
-  }, [])
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
-    setOptions({ threshold })
-  }, [threshold])
+    setList(searchList(albums, ['artist', 'title', 'tags'], search))
+  }, [search])
 
   return (
     <div className='app'>
-      <div>
-        <input
-          type='number'
-          min='0'
-          max='1'
-          step='0.1'
-          value={threshold}
-          onChange={event => setThreshold(event.target.value)}
-        />
-      </div>
+      <SearchBox searchState={[search, setSearch]} />
 
-      <ObserverContext.Provider value={useObserver(options)}>
+      <ObserverContext.Provider value={useObserver(observerOptions)}>
         <ul>
-          {list.map(item => (
-            <li key={item.album}>
-              <Bandcamp {...item} />
-              <button data-album={item.album} onClick={removeItem}>remove</button>
+          {albums.map(item => (
+            <li key={item.params.album} hidden={!list.includes(item)}>
+              <Player {...item} />
             </li>
           ))}
         </ul>

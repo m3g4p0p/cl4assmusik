@@ -1,0 +1,48 @@
+{
+  "defaults": {
+    "size": "large",
+    "bgcol": "333333",
+    "linkcol": "9acd32",
+    "artwork": "small",
+    "transparent": true
+  },
+  "albums": [
+    {
+      "params": {
+        "album": "1181245919"
+      },
+      "link": "https://dirtnaprecords.bandcamp.com/album/jim-and-the-french-vanilla-afraid-of-the-house",
+      "artist": "Jim And The French Vanilla",
+      "title": "Afraid Of The House",
+      "tags": ["garage", "lofi"]
+    },
+    {
+      "params": {
+        "album": "1813453384",
+        "linkcol": "9a64ff"
+      },
+      "linkcol": "9a64ff",
+      "link": "https://dirtnaprecords.bandcamp.com/album/the-hussy-looming",
+      "artist": "The Hussy",
+      "title": "Looming"
+    },
+    {
+      "params": {
+        "album": "3648015892"
+      },
+      "link": "http://dirtnaprecords.bandcamp.com/album/personality-cult-new-arrows",
+      "artist": "Personality Cult",
+      "title": "New Arrows by Dirtnap Records",
+      "tags": ["garage", "punk", "pop"]
+    },
+    {
+      "params": {
+        "album": "2468309475"
+      },
+      "link": "http://greenbluempls.bandcamp.com/album/green-blue-green-blue-lp",
+      "artist": "Green/Blue",
+      "title": "GREEN/BLUE LP",
+      "tags": ["garage", "lofi"]
+    }
+  ]
+}
