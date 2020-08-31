@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { useObservedRef } from './observer'
-import { ObserverContext } from './app'
+import { AppContext } from './app'
 
 export function LazyIframe ({ src, title, ...props }) {
-  const observer = useContext(ObserverContext)
+  const { observer } = useContext(AppContext)
   const [ref, isIntersecting] = useObservedRef(observer)
 
   return (

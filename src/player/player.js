@@ -1,17 +1,21 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
+import { TagList } from '../tag-list/tag-list'
 import { LazyIframe } from '../lazy-iframe'
+import { useStoredState } from '../hooks'
 import { assemble } from '../lib'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'
 
-const encodeOptions = options => Object
-  .entries(options)
-  .map(entry => entry.map(encodeURIComponent).join('='))
-  .join('/')
+function encodeOptions (options) {
+  return Object
+    .entries(options)
+    .map(entry => entry.map(encodeURIComponent).join('='))
+    .join('/')
+}
 
-export function Player ({ artist, title, link = '', params }) {
-  const [showPlaylist, setShowPlaylist] = useState(false)
+export function Player ({ artist, title, link, tags, params }) {
+  const [showPlaylist, setShowPlaylist] = useStoredState(params.album, false)
   const anchor = <a href={link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
 
   return (
@@ -23,12 +27,13 @@ export function Player ({ artist, title, link = '', params }) {
       style={{ '--link-color': `#${params.linkcol}` }}
     >
       <h2 className='title'>{anchor}</h2>
+      <TagList tags={tags} />
 
       <button
         className='playlist-toggle'
         onClick={useCallback(() => {
           setShowPlaylist(showPlaylist => !showPlaylist)
-        }, [])}
+        }, [setShowPlaylist])}
       >playlist</button>
 
       <LazyIframe

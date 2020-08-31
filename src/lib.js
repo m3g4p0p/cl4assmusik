@@ -43,22 +43,36 @@ export class Observer extends IntersectionObserver {
   }
 }
 
-function joinRecursive (values, separator) {
+export function toggle (list, item) {
+  const filtered = list.filter(current => current !== item)
+
+  if (filtered.length < list.length) {
+    return filtered
+  }
+
+  return list.concat([item])
+}
+
+export function join (values, separator = ' ') {
   return values.map(value => Array.isArray(value)
-    ? joinRecursive(value, separator)
+    ? join(value, separator)
     : value
   ).join(separator)
 }
 
+export function split (value) {
+  return value.split(/\s+/)
+}
+
 export function searchList (list, keys, search) {
-  const patters = search.split(/\s+/).map(term => new RegExp(term, 'i'))
+  const patters = split(search).map(term => new RegExp(term, 'i'))
 
   return list.filter(item => {
-    const value = joinRecursive(keys.map(key => item[key]), ' ')
+    const value = join(keys.map(key => item[key]))
     return patters.every(pattern => pattern.test(value))
   })
 }
 
 export function assemble (...values) {
-  return values.filter(v => v).join(' ')
+  return join(values.filter(v => v))
 }

@@ -1,13 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
+import { AppContext } from '../app'
 import './search-box.scss'
 
-export function SearchBox ({ searchState: [search, setSearch], ...props }) {
+export function SearchBox (props) {
+  const { setSearch } = useContext(AppContext)
+
   return (
     <div className='search-box'>
       <input
         {...props}
         type='text'
-        value={search}
         onChange={useCallback(event => {
           setSearch(event.target.value)
         }, [setSearch])}

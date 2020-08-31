@@ -5,7 +5,7 @@ import { Player } from './player/player'
 import { useObserver } from './observer'
 import { searchList } from './lib'
 
-export const ObserverContext = createContext()
+export const AppContext = createContext({})
 const observerOptions = { once: true }
 
 const albums = config.albums.map(album => ({
@@ -19,6 +19,7 @@ const albums = config.albums.map(album => ({
 function App () {
   const [list, setList] = useState(albums)
   const [search, setSearch] = useState('')
+  const observer = useObserver(observerOptions)
 
   useEffect(() => {
     setList(searchList(albums, ['artist', 'title', 'tags'], search))
@@ -26,9 +27,9 @@ function App () {
 
   return (
     <div className='app'>
-      <SearchBox searchState={[search, setSearch]} />
+      <AppContext.Provider value={{ observer, setSearch }}>
+        <SearchBox value={search} />
 
-      <ObserverContext.Provider value={useObserver(observerOptions)}>
         <ul>
           {albums.map(item => (
             <li key={item.params.album} hidden={!list.includes(item)}>
@@ -36,7 +37,7 @@ function App () {
             </li>
           ))}
         </ul>
-      </ObserverContext.Provider>
+      </AppContext.Provider>
     </div>
   )
 }
