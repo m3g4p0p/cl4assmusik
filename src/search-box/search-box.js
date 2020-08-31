@@ -6,14 +6,25 @@ export function SearchBox (props) {
   const setSearch = useContext(SearchContext)
 
   return (
-    <div className='search-box'>
-      <input
-        {...props}
-        type='text'
-        onChange={useCallback(event => {
-          setSearch(event.target.value)
+    <form className='search-box'>
+      <label className='search-field'>
+        Search
+        <input
+          {...props}
+          type='text'
+          onChange={useCallback(event => {
+            setSearch(event.target.value)
+          }, [setSearch])}
+        />
+      </label>
+
+      <button
+        className='reset-button'
+        type='reset'
+        onClick={useCallback(() => {
+          setSearch('')
         }, [setSearch])}
-      />
-    </div>
+      >&#128473;</button>
+    </form>
   )
 }

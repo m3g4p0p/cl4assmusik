@@ -1,3 +1,18 @@
 .search-box {
+  display: flex;
+  align-items: center;
   align-self: flex-end;
+  color: #fff;
+
+  .search-field input {
+    margin: 0 1em;
+  }
+
+  .reset-button {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+  }
 }
