@@ -1,9 +1,9 @@
 import React, { useCallback, useContext } from 'react'
-import { AppContext } from '../app'
+import { SearchContext } from '../app'
 import './search-box.scss'
 
 export function SearchBox (props) {
-  const { setSearch } = useContext(AppContext)
+  const setSearch = useContext(SearchContext)
 
   return (
     <div className='search-box'>

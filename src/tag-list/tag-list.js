@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from 'react'
-import { AppContext } from '../app'
+import { SearchContext } from '../app'
 import { join, split, toggle } from '../lib'
 import './tag-list.scss'
 
 export function TagList ({ tags, ...props }) {
-  const { setSearch } = useContext(AppContext)
+  const setSearch = useContext(SearchContext)
 
   const onClick = useCallback(event => {
     const tag = event.target.hash.slice(1)
@@ -21,6 +21,7 @@ export function TagList ({ tags, ...props }) {
     tags.map(tag => <a
       {...props}
       onClick={onClick}
+      key={tag}
       href={`#${tag}`}>{tag}</a>)
   }</div>)
 }

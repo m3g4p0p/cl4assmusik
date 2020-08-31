@@ -5,7 +5,8 @@ import { Player } from './player/player'
 import { useObserver } from './observer'
 import { searchList } from './lib'
 
-export const AppContext = createContext({})
+export const ObserverContext = createContext(null)
+export const SearchContext = createContext(null)
 const observerOptions = { once: true }
 
 const albums = config.albums.map(album => ({
@@ -16,7 +17,7 @@ const albums = config.albums.map(album => ({
   }
 })).sort((a, b) => a.title < b.title ? -1 : 1)
 
-function App () {
+export function App () {
   const [list, setList] = useState(albums)
   const [search, setSearch] = useState('')
   const observer = useObserver(observerOptions)
@@ -27,19 +28,19 @@ function App () {
 
   return (
     <div className='app'>
-      <AppContext.Provider value={{ observer, setSearch }}>
-        <SearchBox value={search} />
+      <ObserverContext.Provider value={observer}>
+        <SearchContext.Provider value={setSearch}>
+          <SearchBox value={search} />
 
-        <ul>
-          {albums.map(item => (
-            <li key={item.params.album} hidden={!list.includes(item)}>
-              <Player {...item} />
-            </li>
-          ))}
-        </ul>
-      </AppContext.Provider>
+          <ul>
+            {albums.map(item => (
+              <li key={item.params.album} hidden={!list.includes(item)}>
+                <Player {...item} />
+              </li>
+            ))}
+          </ul>
+        </SearchContext.Provider>
+      </ObserverContext.Provider>
     </div>
   )
 }
-
-export default App
