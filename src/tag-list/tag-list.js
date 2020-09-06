@@ -7,12 +7,10 @@ export function TagList ({ tags, ...props }) {
   const setSearch = useContext(SearchContext)
 
   const onClick = useCallback(event => {
-    event.preventDefault()
+    const tag = event.target.hash
 
-    setSearch(search => assemble(toggle(
-      split(search),
-      event.target.hash
-    )))
+    event.preventDefault()
+    setSearch(search => assemble(toggle(split(search), tag)))
   }, [setSearch])
 
   return (tags && <div className='tag-list'>{
