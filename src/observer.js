@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { Observer } from './lib'
 
-export function useObservedRef (observer) {
+export function useObservedRef (observer, once) {
   const ref = useRef()
   const [isIntersecting, setIsIntersecting] = useState(false)
 
@@ -14,10 +14,10 @@ export function useObservedRef (observer) {
 
     observer.observe(current, ({ isIntersecting }) => {
       setIsIntersecting(isIntersecting)
-    })
+    }, once)
 
     return () => observer.unobserve(current)
-  }, [ref, observer])
+  }, [ref, observer, once])
 
   return [ref, isIntersecting]
 }

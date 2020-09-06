@@ -1,12 +1,12 @@
 function dispatch (entries) {
   entries.forEach(entry => {
     const { target, isIntersecting } = entry
-    const callback = this.callbacks.get(target)
+    const { callback, once } = this.callbacks.get(target) || {}
 
     if (callback) {
       callback(entry, this)
 
-      if (this.once && isIntersecting) {
+      if (once && isIntersecting) {
         this.unobserve(target)
       }
     }
@@ -16,13 +16,12 @@ function dispatch (entries) {
 export class Observer extends IntersectionObserver {
   callbacks = new Map()
 
-  constructor ({ once = false, ...options } = {}) {
+  constructor (options) {
     super(dispatch, options)
-    this.once = once
   }
 
-  observe (target, callback) {
-    this.callbacks.set(target, callback)
+  observe (target, callback, once = false) {
+    this.callbacks.set(target, { callback, once })
     return super.observe(target)
   }
 
@@ -74,5 +73,5 @@ export function searchList (list, keys, search) {
 }
 
 export function assemble (...values) {
-  return join(values.filter(v => v))
+  return join(values.filter(Boolean)).trim()
 }

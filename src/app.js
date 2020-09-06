@@ -3,14 +3,15 @@ import config from './config.json'
 import { SearchBox } from './search-box/search-box'
 import { Player } from './player/player'
 import { useObserver } from './observer'
+import { useStoredState } from './storage'
 import { searchList } from './lib'
 
 export const ObserverContext = createContext(null)
 export const SearchContext = createContext(null)
-const observerOptions = { once: true }
 
 const albums = config.albums.map(album => ({
   ...album,
+  tags: album.tags && album.tags.map(tag => `#${tag}`),
   params: {
     ...config.defaults,
     ...album.params
@@ -19,8 +20,8 @@ const albums = config.albums.map(album => ({
 
 export function App () {
   const [list, setList] = useState(albums)
-  const [search, setSearch] = useState('')
-  const observer = useObserver(observerOptions)
+  const [search, setSearch] = useStoredState('_search', '')
+  const observer = useObserver()
 
   useEffect(() => {
     setList(searchList(albums, ['artist', 'title', 'tags'], search))

@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { TagList } from '../tag-list/tag-list'
 import { LazyIframe } from '../lazy-iframe'
-import { useStoredState } from '../hooks'
+import { useStoredState } from '../storage'
 import { assemble } from '../lib'
 import './player.scss'
 
@@ -15,30 +15,38 @@ function encodeOptions (options) {
 }
 
 export function Player ({ artist, title, link, tags, params }) {
-  const [showPlaylist, setShowPlaylist] = useStoredState(params.album, false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [showTracklist, setShowTracklist] = useStoredState(params.album, false)
   const anchor = <a href={link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
 
   return (
     <div
       className={assemble(
         'player',
-        showPlaylist && '-with-playlist'
+        showTracklist && '-with-tracklist',
+        isLoading && '-is-loading'
       )}
-      style={{ '--link-color': `#${params.linkcol}` }}
+      style={{
+        '--link-color': `#${params.linkcol}`,
+        '--background-color': `#${params.bgcol}`
+      }}
     >
       <h2 className='title'>{anchor}</h2>
-      <TagList tags={tags} />
+      {tags && <TagList tags={tags} />}
 
       <button
-        className='playlist-toggle'
+        className='tracklist-toggle'
         onClick={useCallback(() => {
-          setShowPlaylist(showPlaylist => !showPlaylist)
-        }, [setShowPlaylist])}
-      >playlist</button>
+          setShowTracklist(showTracklist => !showTracklist)
+        }, [setShowTracklist])}
+      >tracklist</button>
 
       <LazyIframe
         title={title}
         src={BASE_URL + encodeOptions(params)}
+        onLoad={useCallback(() => {
+          setIsLoading(false)
+        }, [setIsLoading])}
         seamless
       >{anchor}</LazyIframe>
     </div>

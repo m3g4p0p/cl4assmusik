@@ -43,6 +43,22 @@
       "artist": "Green/Blue",
       "title": "GREEN/BLUE LP",
       "tags": ["garage", "lofi"]
+    },
+    {
+      "params": {
+        "album": "3446673543"
+      },
+      "link": "http://hannielkhatib.bandcamp.com/album/flight",
+      "artist": "Hanni El Khatib",
+      "title": "FLIGHT"
+    },
+    {
+      "params": {
+        "album": "3153160134"
+      },
+      "link": "http://liquids1.bandcamp.com/album/100-shit",
+      "artist": "Liquids",
+      "title": "100% Shit"
     }
   ]
 }
