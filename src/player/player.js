@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import Color from 'color-js'
 import { TagList } from '../tag-list/tag-list'
 import { LazyIframe } from '../lazy-iframe'
 import { useStoredState } from '../storage'
@@ -14,7 +15,7 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ artist, title, link, tags, params }) {
+export function Player ({ artist, title, link, tags, params, hueShift }) {
   const [isLoading, setIsLoading] = useState(true)
   const [showTracklist, setShowTracklist] = useStoredState(params.album, false)
   const anchor = <a href={link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
@@ -27,7 +28,7 @@ export function Player ({ artist, title, link, tags, params }) {
         isLoading && '-is-loading'
       )}
       style={{
-        '--link-color': `#${params.linkcol}`,
+        '--link-color': Color(`#${params.linkcol}`).shiftHue(hueShift).toCSS(),
         '--background-color': `#${params.bgcol}`
       }}
     >
