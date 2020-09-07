@@ -23,7 +23,7 @@ function selectTag ({ target }) {
 export function SearchBox (props) {
   const setSearch = useContext(SearchContext)
   const observer = useContext(ObserverContext)
-  const [searchBoxRef, isIntersecting] = useObservedRef(observer)
+  const [searchBoxRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
 
   const handleKeyDown = useCallback(({ key, target }) => {
@@ -32,6 +32,10 @@ export function SearchBox (props) {
     if (target !== current && key.length === 1) {
       setSearch(search => search.replace(/\s*$/, ' '))
       current.focus()
+    }
+
+    if (key === 'Escape') {
+      setSearch('')
     }
   }, [inputRef, setSearch])
 
@@ -45,7 +49,10 @@ export function SearchBox (props) {
       ref={searchBoxRef}
       className="search-box"
     >
-      <form className={assemble(!isIntersecting && '-is-sticky')}>
+      <form className={assemble(
+        intersectionRatio < 1 && '-is-sticky',
+        intersectionRatio === 0 && '-is-hiding'
+      )}>
         <label className='search-field'>
           Search
           <input

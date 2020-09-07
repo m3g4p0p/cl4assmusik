@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #fff;
   background-color: black;
   overflow: scroll;
 }
@@ -29,4 +30,9 @@ ul {
   min-height: calc(100vh - 2em);
   max-width: $app-width;
   margin: $app-margin;
+}
+
+.hero {
+  text-align: right;
+  font-size: 3em;
 }

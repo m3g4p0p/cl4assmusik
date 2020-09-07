@@ -8,6 +8,7 @@ import { searchList } from './lib'
 
 export const ObserverContext = createContext(null)
 export const SearchContext = createContext(null)
+const oberverOptions = { threshold: [0, 1] }
 
 const albums = config.albums.map(album => ({
   ...album,
@@ -21,7 +22,7 @@ const albums = config.albums.map(album => ({
 export function App () {
   const [list, setList] = useState(albums)
   const [search, setSearch] = useStoredState('_search', '')
-  const observer = useObserver()
+  const observer = useObserver(oberverOptions)
 
   useEffect(() => {
     setList(searchList(albums, ['artist', 'title', 'tags'], search))
@@ -29,6 +30,8 @@ export function App () {
 
   return (
     <div className='app'>
+      <h1 className='hero'>kl4ss musik</h1>
+
       <ObserverContext.Provider value={observer}>
         <SearchContext.Provider value={setSearch}>
           <SearchBox value={search} />

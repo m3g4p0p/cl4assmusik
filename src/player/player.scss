@@ -1,6 +1,6 @@
-.player {
-  $timing: .2s ease;
+@import '../globals';
 
+.player {
   display: flex;
   flex-direction: column;
   align-items: center;

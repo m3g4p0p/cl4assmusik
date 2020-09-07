@@ -4,7 +4,7 @@ import { ObserverContext } from './app'
 
 export function LazyIframe ({ src, title, onLoad, ...props }) {
   const observer = useContext(ObserverContext)
-  const [ref, isIntersecting] = useObservedRef(observer, true)
+  const [ref, { isIntersecting }] = useObservedRef(observer, true)
 
   return (
     <iframe
