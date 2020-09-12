@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
-import Color from 'color-js'
 import { TagList } from '../tag-list/tag-list'
 import { LazyIframe } from '../lazy-iframe'
 import { useStoredState } from '../storage'
 import { assemble } from '../lib'
+import { shiftHue } from '../color'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'
@@ -28,7 +28,7 @@ export function Player ({ artist, title, link, tags, params, hueShift }) {
         isLoading && '-is-loading'
       )}
       style={{
-        '--link-color': Color(`#${params.linkcol}`).shiftHue(hueShift).toCSS(),
+        '--link-color': `#${shiftHue(params.linkcol, hueShift)}`,
         '--background-color': `#${params.bgcol}`
       }}
     >

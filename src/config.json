@@ -59,6 +59,30 @@
       "link": "http://liquids1.bandcamp.com/album/100-shit",
       "artist": "Liquids",
       "title": "100% Shit"
+    },
+    {
+      "params": {
+        "album": "1328233720"
+      },
+      "link": "https://synthscene.bandcamp.com/album/40-years-of-synth-punk-volume-1-pay-what-you-want",
+      "artist": "Synth Scene",
+      "title": "40 Years Of Synth Punk - Volume 1 (pay what you want)"
+    },
+    {
+      "params": {
+        "album": "371070950"
+      },
+      "link": "https://geeteeband.bandcamp.com/album/g-t-r-r-c-ii",
+      "artist": "G.T.R.R.C",
+      "title": "G.T.R.R.C II"
+    },
+    {
+      "params": {
+        "album": "1242982303"
+      },
+      "link": "https://adoseofchemtrails.bandcamp.com/album/the-peculiar-smell-of-the-inevitable-lp",
+      "artist": "Chemtrails",
+      "title": "The Peculiar Smell of the Inevitable [LP]"
     }
   ]
 }
