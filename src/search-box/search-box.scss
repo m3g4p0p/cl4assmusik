@@ -1,35 +1,29 @@
 @import '../globals';
 
 .search-box {
-  $height: 2em;
-  $padding: 1em;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1;
+  top: 0;
+  height: 2em;
+  padding: 1em 0;
+  background-color: black;
+  box-shadow: 0 0 5px black;
 
-  height: $height + 2 * $padding;
-  margin: 0 0 1em;
+  &.-is-sticky {
+    transform: translateY(0);
+    transition: transform $timing;
+  }
 
-  form {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: $height;
-    padding: $padding 0;
+  &.-is-hiding:not(:focus-within) {
+    transform: translateY(-100%);
+    transition-delay: 1s;
+  }
 
-    &.-is-sticky {
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      width: 100%;
-      max-width: $app-width;
-      background-color: black;
-      box-shadow: 0 0 5px black;
-      transform: translateY(0);
-      transition: transform $timing;
-    }
-
-    &.-is-hiding:not(:focus-within) {
-      transform: translateY(-100%);
-      transition-delay: 1s;
-    }
+  .sticky-sentinel {
+    display: none;
   }
 
   .search-field input {

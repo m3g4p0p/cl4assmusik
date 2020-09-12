@@ -23,7 +23,7 @@ function selectTag ({ target }) {
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
   const observer = useContext(ObserverContext)
-  const [searchBoxRef, { intersectionRatio }] = useObservedRef(observer)
+  const [stickRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
 
   const handleKeyDown = useCallback(({ key, target }) => {
@@ -45,14 +45,19 @@ export function SearchBox (props) {
   }, [handleKeyDown])
 
   return (
-    <div
-      ref={searchBoxRef}
-      className="search-box"
-    >
-      <form className={assemble(
-        intersectionRatio < 1 && '-is-sticky',
-        intersectionRatio === 0 && '-is-hiding'
-      )}>
+    <>
+      <div
+        ref={stickRef}
+        className='sticky-sentinel'
+      />
+
+      <form
+        className={assemble(
+          'search-box',
+          intersectionRatio < 1 && '-is-sticky',
+          intersectionRatio === 0 && '-is-hiding'
+        )}
+      >
         <label className='search-field'>
           Search
           <input
@@ -75,6 +80,6 @@ export function SearchBox (props) {
           }, [setSearch])}
         >&#128473;</button>
       </form>
-    </div>
+    </>
   )
 }
