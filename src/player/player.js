@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { TagList } from '../tag-list/tag-list'
-import { LazyIframe } from '../lazy-iframe'
-import { useStoredState } from '../storage'
-import { assemble } from '../lib'
-import { shiftHue } from '../color'
+import { LazyIframe } from '../lazy-iframe/lazy-iframe'
+import { useStoredState } from '../lib/storage'
+import { assemble } from '../lib/util'
+import { shiftHue } from '../lib/color'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'

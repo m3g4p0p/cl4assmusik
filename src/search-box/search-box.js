@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useRef, useEffect } from 'react'
-import { SearchContext, ObserverContext } from '../app'
-import { useObservedRef } from '../observer'
-import { assemble } from '../lib'
+import { SearchContext, IntersectionContext } from '../app'
+import { useObservedRef } from '../lib/observer'
+import { assemble } from '../lib/util'
 import './search-box.scss'
 
 function selectTag ({ target }) {
@@ -22,7 +22,7 @@ function selectTag ({ target }) {
 
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
-  const observer = useContext(ObserverContext)
+  const observer = useContext(IntersectionContext)
   const [stickRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
 

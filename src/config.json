@@ -1,4 +1,7 @@
 {
+  "constants": {
+    "MAX_HUE_DELTA": 180
+  },
   "defaults": {
     "size": "large",
     "bgcol": "333333",

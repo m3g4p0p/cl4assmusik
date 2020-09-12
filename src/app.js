@@ -1,36 +1,14 @@
-import React, { useState, createContext, useEffect } from 'react'
-import config from './config.json'
+import React, { useState, createContext, useEffect, useCallback } from 'react'
+import { useObserver, useObservedRef, IntersectionObserver, ResizeObserver } from './lib/observer'
+import { useStoredState } from './lib/storage'
+import { searchList } from './lib/util'
+import { albums } from './lib/data'
 import { SearchBox } from './search-box/search-box'
 import { Player } from './player/player'
-import { useObserver } from './observer'
-import { useStoredState } from './storage'
-import { searchList } from './lib'
-import { randomizeHue } from './color'
 
-export const ObserverContext = createContext(null)
+export const IntersectionContext = createContext(null)
 export const SearchContext = createContext(null)
 const oberverOptions = { threshold: [0, 1] }
-const MAX_HUE_DELTA = 180
-
-const albums = config.albums.map(album => ({
-  ...album,
-  tags: album.tags && album.tags.map(tag => `#${tag}`),
-  params: {
-    ...config.defaults,
-    ...album.params
-  }
-})).map(album => ({
-  ...album,
-  params: {
-    ...album.params,
-    bgcol: randomizeHue(album.params.bgcol, MAX_HUE_DELTA),
-    linkcol: randomizeHue(album.params.linkcol, MAX_HUE_DELTA)
-  }
-})).sort((a, b) => stringifyAlbum(a) < stringifyAlbum(b) ? -1 : 1)
-
-function stringifyAlbum ({ artist, title }) {
-  return `${artist} ${title}`
-}
 
 function throttleRAF (callback) {
   let isScheduled = false
@@ -49,31 +27,41 @@ function throttleRAF (callback) {
   }
 }
 
+function useResizeRef () {
+  const observer = useObserver(ResizeObserver)
+  const [ref, entry] = useObservedRef(observer)
+
+  return [ref, entry?.contentRect?.height]
+}
+
 export function App () {
   const [list, setList] = useState(albums)
   const [search, setSearch] = useStoredState('_search', '')
   const [hueShift, setHueShift] = useState(0)
-  const observer = useObserver(oberverOptions)
+  const [resizeRef, appHeight] = useResizeRef()
+  const observer = useObserver(IntersectionObserver, oberverOptions)
+
+  const adjustHueShift = useCallback(throttleRAF(() => {
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight
+    setHueShift(window.scrollY / scrollMax * 360 || 0)
+  }), [])
 
   useEffect(() => {
-    const handleScroll = throttleRAF(() => {
-      const scrollMax = document.documentElement.scrollHeight - window.innerHeight
-      setHueShift(window.scrollY / scrollMax * 360)
-    })
+    window.addEventListener('scroll', adjustHueShift)
+    return () => window.removeEventListener('scroll', adjustHueShift)
+  }, [adjustHueShift])
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  })
+  useEffect(() => adjustHueShift(), [adjustHueShift, appHeight])
 
   useEffect(() => {
     setList(searchList(albums, ['artist', 'title', 'tags'], search))
   }, [search])
 
   return (
-    <div className='app'>
+    <div className='app' ref={resizeRef}>
       <h1 className='hero'>kl4ss musik</h1>
 
-      <ObserverContext.Provider value={observer}>
+      <IntersectionContext.Provider value={observer}>
         <SearchContext.Provider value={[search, setSearch]}>
           <SearchBox />
 
@@ -85,7 +73,7 @@ export function App () {
             ))}
           </ul>
         </SearchContext.Provider>
-      </ObserverContext.Provider>
+      </IntersectionContext.Provider>
     </div>
   )
 }

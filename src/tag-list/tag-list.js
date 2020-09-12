@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { SearchContext } from '../app'
-import { split, toggle, assemble } from '../lib'
+import { split, toggle, assemble } from '../lib/util'
 import './tag-list.scss'
 
 export function TagList ({ tags, ...props }) {
