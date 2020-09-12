@@ -21,7 +21,7 @@ function selectTag ({ target }) {
 }
 
 export function SearchBox (props) {
-  const setSearch = useContext(SearchContext)
+  const [search, setSearch] = useContext(SearchContext)
   const observer = useContext(ObserverContext)
   const [searchBoxRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
@@ -59,6 +59,7 @@ export function SearchBox (props) {
             {...props}
             type='text'
             ref={inputRef}
+            value={search}
             onChange={useCallback(event => {
               setSearch(event.target.value)
             }, [setSearch])}

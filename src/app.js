@@ -74,8 +74,8 @@ export function App () {
       <h1 className='hero'>kl4ss musik</h1>
 
       <ObserverContext.Provider value={observer}>
-        <SearchContext.Provider value={setSearch}>
-          <SearchBox value={search} />
+        <SearchContext.Provider value={[search, setSearch]}>
+          <SearchBox />
 
           <ul>
             {albums.map(item => (
