@@ -35,16 +35,18 @@
     margin: 2rem 0 0;
   }
 
+  .controls {
+    display: flex;
+    justify-content: space-evenly;
+    align-self: stretch;
+    margin-top: 1rem;
+  }
+
   .tracklist-toggle {
     $arrow-width: 10px;
     $arrow-ratio: 1.5;
 
     position: relative;
-    background: none;
-    margin-top: 1rem;
-    border: none;
-    color: var(--link-color);
-    cursor: pointer;
 
     &::before,
     &::after {

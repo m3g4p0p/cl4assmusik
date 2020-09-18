@@ -4,7 +4,7 @@ import { split, toggle, assemble } from '../lib/util'
 import './tag-list.scss'
 
 export function TagList ({ tags, ...props }) {
-  const setSearch = useContext(SearchContext)
+  const [, setSearch] = useContext(SearchContext)
 
   const onClick = useCallback(event => {
     const tag = event.target.hash

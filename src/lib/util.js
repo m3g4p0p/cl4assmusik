@@ -31,3 +31,7 @@ export function searchList (list, keys, search) {
 export function assemble (...values) {
   return join(values.filter(Boolean)).trim()
 }
+
+export function negate (value) {
+  return !value
+}

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { TagList } from '../tag-list/tag-list'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
+import { ToggleButton } from '../toggle-button/toggle-button'
 import { useStoredState } from '../lib/storage'
 import { assemble } from '../lib/util'
 import { shiftHue } from '../lib/color'
@@ -35,12 +36,13 @@ export function Player ({ artist, title, link, tags, params, hueShift }) {
       <h2 className='title'>{anchor}</h2>
       {tags && <TagList tags={tags} />}
 
-      <button
-        className='tracklist-toggle'
-        onClick={useCallback(() => {
-          setShowTracklist(showTracklist => !showTracklist)
-        }, [setShowTracklist])}
-      >tracklist</button>
+      <div className='controls'>
+        <ToggleButton
+          className='tracklist-toggle'
+          state={showTracklist}
+          setState={setShowTracklist}
+        >tracklist</ToggleButton>
+      </div>
 
       <LazyIframe
         title={title}
