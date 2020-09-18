@@ -12,7 +12,7 @@
   "albums": [
     {
       "params": {
-        "album": "1181245919"
+        "album": 1181245919
       },
       "link": "https://dirtnaprecords.bandcamp.com/album/jim-and-the-french-vanilla-afraid-of-the-house",
       "artist": "Jim And The French Vanilla",
@@ -21,7 +21,7 @@
     },
     {
       "params": {
-        "album": "1813453384",
+        "album": 1813453384,
         "linkcol": "9a64ff"
       },
       "linkcol": "9a64ff",
@@ -31,7 +31,7 @@
     },
     {
       "params": {
-        "album": "3648015892"
+        "album": 3648015892
       },
       "link": "http://dirtnaprecords.bandcamp.com/album/personality-cult-new-arrows",
       "artist": "Personality Cult",
@@ -40,7 +40,7 @@
     },
     {
       "params": {
-        "album": "2468309475"
+        "album": 2468309475
       },
       "link": "http://greenbluempls.bandcamp.com/album/green-blue-green-blue-lp",
       "artist": "Green/Blue",
@@ -49,7 +49,7 @@
     },
     {
       "params": {
-        "album": "3446673543"
+        "album": 3446673543
       },
       "link": "http://hannielkhatib.bandcamp.com/album/flight",
       "artist": "Hanni El Khatib",
@@ -57,7 +57,7 @@
     },
     {
       "params": {
-        "album": "3153160134"
+        "album": 3153160134
       },
       "link": "http://liquids1.bandcamp.com/album/100-shit",
       "artist": "Liquids",
@@ -65,7 +65,7 @@
     },
     {
       "params": {
-        "album": "1328233720"
+        "album": 1328233720
       },
       "link": "https://synthscene.bandcamp.com/album/40-years-of-synth-punk-volume-1-pay-what-you-want",
       "artist": "Synth Scene",
@@ -73,7 +73,7 @@
     },
     {
       "params": {
-        "album": "371070950"
+        "album": 371070950
       },
       "link": "https://geeteeband.bandcamp.com/album/g-t-r-r-c-ii",
       "artist": "G.T.R.R.C",
@@ -81,11 +81,27 @@
     },
     {
       "params": {
-        "album": "1242982303"
+        "album": 1242982303
       },
       "link": "https://adoseofchemtrails.bandcamp.com/album/the-peculiar-smell-of-the-inevitable-lp",
       "artist": "Chemtrails",
       "title": "The Peculiar Smell of the Inevitable [LP]"
+    },
+    {
+      "link": "https://civicivic.bandcamp.com/album/new-vietnam-12-ep",
+      "artist": "Civic",
+      "title": "New Vietnam 12\" EP",
+      "params": {
+        "album": 1974704659
+      }
+    },
+    {
+      "link": "https://ausmuteants.bandcamp.com/album/split-personalities-2",
+      "artist": "AUSMUTEANTS",
+      "title": "Split Personalities",
+      "params": {
+        "album": 919571170
+      }
     }
   ]
 }
