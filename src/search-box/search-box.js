@@ -28,9 +28,13 @@ export function SearchBox (props) {
 
   const handleKeyDown = useCallback(({ key, target }) => {
     const { current } = inputRef
+    console.log(key)
 
-    if (target !== current && key.length === 1) {
-      setSearch(search => search.replace(/\s*$/, ' '))
+    if (target !== current && (
+      key.length === 1 ||
+      key === 'Backspace'
+    )) {
+      setSearch(search => search.trim())
       current.focus()
     }
 

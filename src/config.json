@@ -150,6 +150,30 @@
       "params": {
         "album": 3830893120
       }
+    },
+    {
+      "link": "https://drunkensailorrecords.bandcamp.com/album/st-lp-12",
+      "artist": "The Mark Vodka Group",
+      "title": "ST LP",
+      "params": {
+        "album": 284594840
+      }
+    },
+    {
+      "link": "https://theneptunepowerfederation.bandcamp.com/album/neath-a-shin-ei-sun",
+      "artist": "The Neptune Power Federation",
+      "title": "Neath A Shin Ei Sun",
+      "params": {
+        "album": 2151102053
+      }
+    },
+    {
+      "link": "https://theneptunepowerfederation.bandcamp.com/album/memoirs-of-a-rat-queen",
+      "artist": "The Neptune Power Federation",
+      "title": "Memoirs Of A Rat Queen",
+      "params": {
+        "album": 3805787157
+      }
     }
   ]
 }
