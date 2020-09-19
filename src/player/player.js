@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { TagList } from '../tag-list/tag-list'
+import { RelatedList } from '../related-list/related-list'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
 import { ToggleButton } from '../toggle-button/toggle-button'
 import { useStoredState } from '../lib/storage'
@@ -16,7 +17,7 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ artist, title, link, tags, params, hueShift }) {
+export function Player ({ artist, title, link, tags, params, related, hueShift }) {
   const [isLoading, setIsLoading] = useState(true)
   const [showTracklist, setShowTracklist] = useStoredState(params.album, false)
   const anchor = <a href={link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
@@ -34,7 +35,9 @@ export function Player ({ artist, title, link, tags, params, hueShift }) {
       }}
     >
       <h2 className='title'>{anchor}</h2>
+
       <TagList tags={tags} />
+      <RelatedList related={related} />
 
       <div className='controls'>
         <ToggleButton
