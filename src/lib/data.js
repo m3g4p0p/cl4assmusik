@@ -4,7 +4,7 @@ import { randomizeHue } from './color'
 const { MAX_HUE_DELTA } = config.constants
 
 function stringifyAlbum ({ artist, title }) {
-  return `${artist} ${title}`
+  return `${artist.replace(/^the\s+/i, '')} ${title}`
 }
 
 export function getId ({ id, params }) {
