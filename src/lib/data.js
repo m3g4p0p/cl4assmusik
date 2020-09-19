@@ -12,13 +12,12 @@ export const albums = config.albums.map(album => ({
   tags: album.tags && album.tags.map(tag => `#${tag}`),
   params: {
     ...config.defaults,
-    ...album.params
-  }
-})).map(album => ({
-  ...album,
-  params: {
     ...album.params,
-    bgcol: randomizeHue(album.params.bgcol, MAX_HUE_DELTA),
-    linkcol: randomizeHue(album.params.linkcol, MAX_HUE_DELTA)
-  }
+    bgcol: randomizeHue(album.params.bgcol || config.defaults.bgcol, MAX_HUE_DELTA),
+    linkcol: randomizeHue(album.params.linkcol || config.defaults.linkcol, MAX_HUE_DELTA)
+  },
+  related: config.albums.filter(({ artist, title }) => (
+    artist === album.artist &&
+    title !== album.title
+  )).map(({ params }) => params.album)
 })).sort((a, b) => stringifyAlbum(a) < stringifyAlbum(b) ? -1 : 1)

@@ -34,7 +34,7 @@ export function Player ({ artist, title, link, tags, params, hueShift }) {
       }}
     >
       <h2 className='title'>{anchor}</h2>
-      {tags && <TagList tags={tags} />}
+      <TagList tags={tags} />
 
       <div className='controls'>
         <ToggleButton

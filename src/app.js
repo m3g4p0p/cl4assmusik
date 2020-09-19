@@ -3,6 +3,7 @@ import { useObserver, useObservedRef, IntersectionObserver, ResizeObserver } fro
 import { useStoredState } from './lib/storage'
 import { searchList } from './lib/util'
 import { albums } from './lib/data'
+import { Hero } from './hero/hero'
 import { SearchBox } from './search-box/search-box'
 import { Player } from './player/player'
 
@@ -59,7 +60,7 @@ export function App () {
 
   return (
     <div className='app' ref={resizeRef}>
-      <h1 className='hero'>kl4ss musik</h1>
+      <Hero headline='cl4ss musik' copy='ön ßandcamp' />
 
       <IntersectionContext.Provider value={observer}>
         <SearchContext.Provider value={[search, setSearch]}>

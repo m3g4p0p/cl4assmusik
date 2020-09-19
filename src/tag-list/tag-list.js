@@ -13,11 +13,14 @@ export function TagList ({ tags, ...props }) {
     setSearch(search => assemble(toggle(split(search), tag)))
   }, [setSearch])
 
-  return (tags && <div className='tag-list'>{
-    tags.map(tag => <a
-      {...props}
-      onClick={onClick}
-      key={tag}
-      href={tag}>{tag}</a>)
-  }</div>)
+  return tags ? (
+    <div className='tag-list'>{
+      tags.map(tag => <a
+        {...props}
+        onClick={onClick}
+        key={tag}
+        href={tag}>{tag}</a>)
+    }
+    </div>
+  ) : null
 }
