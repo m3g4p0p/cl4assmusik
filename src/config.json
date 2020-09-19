@@ -69,7 +69,7 @@
       },
       "link": "https://synthscene.bandcamp.com/album/40-years-of-synth-punk-volume-1-pay-what-you-want",
       "artist": "Synth Scene",
-      "title": "40 Years Of Synth Punk - Volume 1 (pay what you want)"
+      "title": "40 Years Of Synth Punk - Volume 1"
     },
     {
       "params": {
@@ -109,6 +109,46 @@
       "title": "Those Who No EP",
       "params": {
         "album": 1117341658
+      }
+    },
+    {
+      "link": "https://archaeas.bandcamp.com/album/archaeas",
+      "artist": "The Archaeas",
+      "title": "Archaeas",
+      "params": {
+        "album": 936995500
+      }
+    },
+    {
+      "link": "https://dirtnaprecords.bandcamp.com/album/legendary-wings-do-you-see",
+      "artist": "Dirtnap Records",
+      "title": "Legendary Wings - Do You See?",
+      "params": {
+        "album": 1900484493
+      }
+    },
+    {
+      "link": "https://dirtnaprecords.bandcamp.com/album/legendary-wings-making-paper-roses-2",
+      "artist": "Legendary Wings",
+      "title": "Legendary Wings - Making Paper Roses",
+      "params": {
+        "album": 1951743742
+      }
+    },
+    {
+      "link": "https://adoseofchemtrails.bandcamp.com/album/calf-of-the-sacred-cow-lp",
+      "artist": "Chemtrails",
+      "title": "Calf of the Sacred Cow [LP]",
+      "params": {
+        "album": 2863932347
+      }
+    },
+    {
+      "link": "https://adoseofchemtrails.bandcamp.com/album/cuckoo-spit-ep",
+      "artist": "Chemtrails",
+      "title": "Cuckoo Spit [EP]",
+      "params": {
+        "album": 3830893120
       }
     }
   ]

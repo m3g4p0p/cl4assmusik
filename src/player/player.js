@@ -17,9 +17,14 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ artist, title, link, tags, params, related, hueShift }) {
+function getTrackListKey (id) {
+  return `tracklist_${id}`
+}
+
+export function Player ({ album, hueShift }) {
+  const { artist, title, link, tags, params, related } = album
   const [isLoading, setIsLoading] = useState(true)
-  const [showTracklist, setShowTracklist] = useStoredState(params.album, false)
+  const [showTracklist, setShowTracklist] = useStoredState(getTrackListKey(album.id), false)
   const anchor = <a href={link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
 
   return (

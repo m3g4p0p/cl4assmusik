@@ -7,8 +7,18 @@ function stringifyAlbum ({ artist, title }) {
   return `${artist} ${title}`
 }
 
+export function getId ({ id, params }) {
+  return id || params.album
+}
+
+export function getAlbum (id) {
+  const nId = Number(id)
+  return albums.find(album => album.id === nId)
+}
+
 export const albums = config.albums.map(album => ({
   ...album,
+  id: getId(album),
   tags: album.tags && album.tags.map(tag => `#${tag}`),
   params: {
     ...config.defaults,
@@ -19,5 +29,13 @@ export const albums = config.albums.map(album => ({
   related: config.albums.filter(({ artist, title }) => (
     artist === album.artist &&
     title !== album.title
-  )).map(({ params }) => params.album)
+  )).map(getId)
 })).sort((a, b) => stringifyAlbum(a) < stringifyAlbum(b) ? -1 : 1)
+
+export const firstForArtist = albums.reduce((list, album) => {
+  if (list.every(({ artist }) => artist !== album.artist)) {
+    list.push(album)
+  }
+
+  return list
+}, []).map(getId)

@@ -9,12 +9,23 @@ export function useStoredState (key, initial) {
   const [state, setState] = useState(parseFromStorage(key) || initial)
 
   useEffect(() => {
-    const handle = window.requestIdleCallback(() => {
+    const idleHandle = window.requestIdleCallback(() => {
       window.localStorage.setItem(key, JSON.stringify(state))
     })
 
-    return () => window.cancelIdleCallback(handle)
+    return () => window.cancelIdleCallback(idleHandle)
   }, [key, state])
+
+  useEffect(() => {
+    const handleUpdate = event => {
+      if (event.key === key) {
+        setState(event.newValue)
+      }
+    }
+
+    window.addEventListener('storage', handleUpdate)
+    return window.removeEventListener('storage', handleUpdate)
+  }, [key])
 
   return [state, setState]
 }
