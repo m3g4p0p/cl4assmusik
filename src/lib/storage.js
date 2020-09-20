@@ -33,7 +33,7 @@ export function useStoredState (key, initial) {
   return [state, setState]
 }
 
-export function useStoredDispatch (reducer, key, initial) {
+export function useStoredReducer (reducer, key, initial) {
   const [stored, setStored] = useStoredState(key, initial)
   const [state, dispatch] = useReducer(stored)
 

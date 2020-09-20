@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { TagList } from '../tag-list/tag-list'
 import { RelatedList } from '../related-list/related-list'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
@@ -18,12 +18,18 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ album, hueShift }) {
+export function Player ({ album, hueShift, onFavoriteToggle }) {
   const { artist, title, tags, params, related } = album
   const [isLoading, setIsLoading] = useState(true)
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
   const [isFavorite, setIsFavorite] = useStoredState(['favorite', album.id], false)
   const link = <a href={album.link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
+
+  useEffect(() => {
+    if (onFavoriteToggle) {
+      onFavoriteToggle(album.id, isFavorite)
+    }
+  }, [onFavoriteToggle, album.id, isFavorite])
 
   return (
     <div

@@ -23,7 +23,6 @@ function selectTag ({ target }) {
 
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
-  // const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
   const observer = useContext(IntersectionContext)
   const [stickyRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()

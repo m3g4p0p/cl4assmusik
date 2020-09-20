@@ -1,13 +1,10 @@
-export function favoritesReducer ({ favorites, show }, action) {
+export function favoritesReducer (favorites, action) {
   switch (action.type) {
     case 'add':
-      return { favorites: [...favorites, action.id], show }
+      return [...favorites, action.id]
 
     case 'remove':
-      return { favorites: favorites.filter(id => id !== action.id), show }
-
-    case 'toggle':
-      return { favorites, show: !show }
+      return favorites.filter(id => id !== action.id)
 
     default:
       throw new Error(`Invalid action ${action.type}`)
