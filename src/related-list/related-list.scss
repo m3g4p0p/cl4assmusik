@@ -1,11 +1,9 @@
+@import '../globals';
+
 .related-list {
-  margin-top: 1em;
+  @extend %link-list;
 
   > a {
     font-size: .8em;
-
-    &:not(:last-child) {
-      margin-right: 1em;
-    }
   }
 }

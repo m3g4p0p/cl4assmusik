@@ -28,7 +28,6 @@ export function SearchBox (props) {
 
   const handleKeyDown = useCallback(({ key, target }) => {
     const { current } = inputRef
-    console.log(key)
 
     if (target !== current && (
       key.length === 1 ||

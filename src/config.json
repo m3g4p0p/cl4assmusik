@@ -121,8 +121,8 @@
     },
     {
       "link": "https://dirtnaprecords.bandcamp.com/album/legendary-wings-do-you-see",
-      "artist": "Dirtnap Records",
-      "title": "Legendary Wings - Do You See?",
+      "artist": "Legendary Wings",
+      "title": "Do You See?",
       "params": {
         "album": 1900484493
       }
@@ -130,7 +130,7 @@
     {
       "link": "https://dirtnaprecords.bandcamp.com/album/legendary-wings-making-paper-roses-2",
       "artist": "Legendary Wings",
-      "title": "Legendary Wings - Making Paper Roses",
+      "title": "Making Paper Roses",
       "params": {
         "album": 1951743742
       }
@@ -163,6 +163,7 @@
       "link": "https://theneptunepowerfederation.bandcamp.com/album/neath-a-shin-ei-sun",
       "artist": "The Neptune Power Federation",
       "title": "Neath A Shin Ei Sun",
+      "tags": ["glam", "rock"],
       "params": {
         "album": 2151102053
       }
@@ -171,6 +172,7 @@
       "link": "https://theneptunepowerfederation.bandcamp.com/album/memoirs-of-a-rat-queen",
       "artist": "The Neptune Power Federation",
       "title": "Memoirs Of A Rat Queen",
+      "tags": ["glam", "rock"],
       "params": {
         "album": 3805787157
       }

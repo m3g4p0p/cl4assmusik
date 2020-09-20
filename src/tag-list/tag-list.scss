@@ -1,10 +1,10 @@
+@import '../globals';
+
 .tag-list {
+  @extend %link-list;
+
   > a {
     font-family: 'Courier New', Courier, monospace;
     font-variant-caps: all-petite-caps;
-
-    &:not(:last-child) {
-      margin-right: 1em;
-    }
   }
 }
