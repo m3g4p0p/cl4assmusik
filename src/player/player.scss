@@ -36,6 +36,7 @@
   }
 
   .controls {
+    position: relative;
     display: flex;
     justify-content: space-evenly;
     align-self: stretch;
@@ -70,6 +71,12 @@
     &::after {
       right: -$arrow-width * 2;
     }
+  }
+
+  .favorite-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   &.-with-tracklist {

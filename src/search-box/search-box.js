@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useRef, useEffect } from 'react'
-import { SearchContext, IntersectionContext } from '../app'
+import { SearchContext, IntersectionContext, FavoritesContext } from '../app'
+import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
 import { useObservedRef } from '../lib/observer'
 import { assemble } from '../lib/util'
 import './search-box.scss'
@@ -22,6 +23,7 @@ function selectTag ({ target }) {
 
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
+  // const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
   const observer = useContext(IntersectionContext)
   const [stickyRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
@@ -61,6 +63,8 @@ export function SearchBox (props) {
           intersectionRatio === 0 && '-is-hiding'
         )}
       >
+        <FavoriteToggle hook={useContext(FavoritesContext)} />
+
         <label className='search-field'>
           Search
           <input

@@ -2,6 +2,7 @@ import React, { useState, createContext, useEffect, useCallback } from 'react'
 import { useObserver, useObservedRef, IntersectionObserver, ResizeObserver } from './lib/observer'
 import { useStoredState } from './lib/storage'
 import { firstForArtist } from './lib/data'
+import { createProvider } from './lib/provider'
 import { Hero } from './hero/hero'
 import { SearchBox } from './search-box/search-box'
 import { PlayerList } from './player-list/player-list'
@@ -9,6 +10,11 @@ import { PlayerList } from './player-list/player-list'
 export const IntersectionContext = createContext(null)
 export const SearchContext = createContext(null)
 export const SelectedContext = createContext(null)
+export const FavoritesContext = createContext(null)
+
+const SearchProvider = createProvider(SearchContext, useStoredState, 'search', '')
+const SelectedProvider = createProvider(SelectedContext, useStoredState, 'selected', firstForArtist)
+const FavoritesProvider = createProvider(FavoritesContext, useStoredState, 'favorites', false)
 const oberverOptions = { threshold: [0, 1] }
 
 function throttleRAF (callback) {
@@ -36,8 +42,6 @@ function useResizeRef () {
 }
 
 export function App () {
-  const [search, setSearch] = useStoredState('search', '')
-  const [selected, setSelected] = useStoredState('selected', firstForArtist)
   const [hueShift, setHueShift] = useState(0)
   const [resizeRef, appHeight] = useResizeRef()
   const observer = useObserver(IntersectionObserver, oberverOptions)
@@ -59,12 +63,14 @@ export function App () {
       <Hero headline='cl4ss musik' copy='ön ßandcamp' />
 
       <IntersectionContext.Provider value={observer}>
-        <SearchContext.Provider value={[search, setSearch]}>
-          <SelectedContext.Provider value={[selected, setSelected]}>
-            <SearchBox />
-            <PlayerList hueShift={hueShift} />
-          </SelectedContext.Provider>
-        </SearchContext.Provider>
+        <SearchProvider>
+          <SelectedProvider>
+            <FavoritesProvider>
+              <SearchBox />
+              <PlayerList hueShift={hueShift} />
+            </FavoritesProvider>
+          </SelectedProvider>
+        </SearchProvider>
       </IntersectionContext.Provider>
     </div>
   )

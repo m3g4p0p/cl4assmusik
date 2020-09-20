@@ -5,19 +5,19 @@ import { albums, getId } from '../lib/data'
 import { searchList } from '../lib/util'
 
 export function PlayerList ({ hueShift }) {
-  const [list, setList] = useState(albums.map(getId))
   const [search] = useContext(SearchContext)
   const [selected] = useContext(SelectedContext)
+  const [matches, setMatches] = useState(albums.map(getId))
 
   useEffect(() => {
-    setList(searchList(albums, ['artist', 'title', 'tags'], search).map(getId))
+    setMatches(searchList(albums, ['artist', 'title', 'tags'], search).map(getId))
   }, [search])
 
   return (
     <ul>
       {albums.map(album => (
         <li key={album.id} hidden={
-          !list.includes(album.id) ||
+          !matches.includes(album.id) ||
           (!selected.includes(album.id) && !search.trim())
         }>
           <Player album={album} hueShift={hueShift} />

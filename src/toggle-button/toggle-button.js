@@ -4,11 +4,11 @@ import './toggle-button.scss'
 
 export function ToggleButton ({
   onClick,
-  setState,
-  state = false,
+  hook = [],
   className = '',
   ...props
 }) {
+  const [state = false, setState] = hook
   const [active, setActive] = useState(state)
 
   const handleClick = useCallback(event => {
@@ -27,6 +27,7 @@ export function ToggleButton ({
 
   return (
     <button
+      type='button'
       {...props}
       className={assemble(className, 'toggle-button')}
       onClick={handleClick}
