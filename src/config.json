@@ -1,6 +1,6 @@
 {
   "constants": {
-    "MAX_HUE_DELTA": 180
+    "MAX_INITIAL_HUE_SHIFT": 360
   },
   "defaults": {
     "size": "large",

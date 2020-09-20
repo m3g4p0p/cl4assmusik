@@ -23,7 +23,7 @@ function selectTag ({ target }) {
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
   const observer = useContext(IntersectionContext)
-  const [stickRef, { intersectionRatio }] = useObservedRef(observer)
+  const [stickyRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
 
   const handleKeyDown = useCallback(({ key, target }) => {
@@ -50,7 +50,7 @@ export function SearchBox (props) {
   return (
     <>
       <div
-        ref={stickRef}
+        ref={stickyRef}
         className='sticky-sentinel'
       />
 

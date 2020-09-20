@@ -1,10 +1,22 @@
 import config from '../config.json'
 import { randomizeHue } from './color'
 
-const { MAX_HUE_DELTA } = config.constants
+const { MAX_INITIAL_HUE_SHIFT } = config.constants
 
 function stringifyAlbum ({ artist, title }) {
   return `${artist.replace(/^the\s+/i, '')} ${title}`
+}
+
+function colorizeAlbum ({ params }) {
+  const {
+    linkcol = config.defaults.linkcol,
+    bgcol = config.defaults.bgcol
+  } = params
+
+  return {
+    linkcol: randomizeHue(linkcol, MAX_INITIAL_HUE_SHIFT),
+    bgcol: randomizeHue(bgcol, MAX_INITIAL_HUE_SHIFT)
+  }
 }
 
 export function getId ({ id, params }) {
@@ -23,8 +35,7 @@ export const albums = config.albums.map(album => ({
   params: {
     ...config.defaults,
     ...album.params,
-    bgcol: randomizeHue(album.params.bgcol || config.defaults.bgcol, MAX_HUE_DELTA),
-    linkcol: randomizeHue(album.params.linkcol || config.defaults.linkcol, MAX_HUE_DELTA)
+    ...colorizeAlbum(album)
   },
   related: config.albums.filter(({ artist, title }) => (
     artist === album.artist &&
