@@ -23,6 +23,7 @@ function selectTag ({ target }) {
 
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
+  const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
   const observer = useContext(IntersectionContext)
   const [stickyRef, { intersectionRatio }] = useObservedRef(observer)
   const inputRef = useRef()
@@ -62,7 +63,10 @@ export function SearchBox (props) {
           intersectionRatio === 0 && '-is-hiding'
         )}
       >
-        <FavoriteToggle hook={useContext(FavoritesContext)} />
+        <FavoriteToggle
+          active={showFavorites}
+          update={setShowFavorites}
+        />
 
         <label className='search-field'>
           Search

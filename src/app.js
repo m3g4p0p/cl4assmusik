@@ -1,5 +1,5 @@
-import React, { useState, createContext, useEffect, useCallback } from 'react'
-import { useObserver, useObservedRef, IntersectionObserver, ResizeObserver } from './lib/observer'
+import React, { createContext, useEffect } from 'react'
+import { useObserver, IntersectionObserver, ResizeObserver } from './lib/observer'
 import { useStoredState } from './lib/storage'
 import { firstForArtist } from './lib/data'
 import { createProvider } from './lib/provider'
@@ -14,7 +14,7 @@ export const FavoritesContext = createContext(null)
 
 const SearchProvider = createProvider(SearchContext, useStoredState, 'search', '')
 const SelectedProvider = createProvider(SelectedContext, useStoredState, 'selected', firstForArtist)
-const FavoritesProvider = createProvider(FavoritesContext, useStoredState, 'favorites', false)
+const FavoritesProvider = createProvider(FavoritesContext, useStoredState, 'show_favorites', false)
 const oberverOptions = { threshold: [0, 1] }
 
 function throttleRAF (callback) {
@@ -34,32 +34,28 @@ function throttleRAF (callback) {
   }
 }
 
-function useResizeRef () {
-  const observer = useObserver(ResizeObserver)
-  const [ref, entry] = useObservedRef(observer)
-
-  return [ref, entry?.contentRect?.height]
-}
+const adjustHueShift = throttleRAF(() => {
+  const scrollMax = document.documentElement.scrollHeight - window.innerHeight
+  const scrollDegree = window.scrollY / scrollMax * 360 || 0
+  document.documentElement.style.setProperty('--hue-shift', scrollDegree)
+})
 
 export function App () {
-  const [hueShift, setHueShift] = useState(0)
-  const [resizeRef, appHeight] = useResizeRef()
   const observer = useObserver(IntersectionObserver, oberverOptions)
-
-  const adjustHueShift = useCallback(throttleRAF(() => {
-    const scrollMax = document.documentElement.scrollHeight - window.innerHeight
-    setHueShift(window.scrollY / scrollMax * 360 || 0)
-  }), [])
 
   useEffect(() => {
     window.addEventListener('scroll', adjustHueShift)
     return () => window.removeEventListener('scroll', adjustHueShift)
-  }, [adjustHueShift])
+  }, [])
 
-  useEffect(() => adjustHueShift(), [adjustHueShift, appHeight])
+  useEffect(() => {
+    const observer = new ResizeObserver()
+    observer.observe(document.body, adjustHueShift)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <div className='app' ref={resizeRef}>
+    <div className='app'>
       <Hero headline='cl4ss musik' copy='ön ßandcamp' />
 
       <IntersectionContext.Provider value={observer}>
@@ -67,7 +63,7 @@ export function App () {
           <SelectedProvider>
             <FavoritesProvider>
               <SearchBox />
-              <PlayerList hueShift={hueShift} />
+              <PlayerList />
             </FavoritesProvider>
           </SelectedProvider>
         </SearchProvider>

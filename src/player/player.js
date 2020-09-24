@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import { TagList } from '../tag-list/tag-list'
 import { RelatedList } from '../related-list/related-list'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
@@ -6,7 +6,7 @@ import { ToggleButton } from '../toggle-button/toggle-button'
 import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
 import { useStoredState } from '../lib/storage'
 import { assemble } from '../lib/util'
-import { shiftHue } from '../lib/color'
+import { getHSV } from '../lib/color'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'
@@ -18,18 +18,19 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ album, hueShift, onFavoriteToggle }) {
+export function Player ({ album, dispatch }) {
   const { artist, title, tags, params, related } = album
   const [isLoading, setIsLoading] = useState(true)
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
   const [isFavorite, setIsFavorite] = useStoredState(['favorite', album.id], false)
+  const color = useMemo(() => getHSV(params.linkcol), [params.linkcol])
   const link = <a href={album.link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
 
   useEffect(() => {
-    if (onFavoriteToggle) {
-      onFavoriteToggle(album.id, isFavorite)
+    if (dispatch) {
+      dispatch({ type: isFavorite ? 'add' : 'remove', id: album.id })
     }
-  }, [onFavoriteToggle, album.id, isFavorite])
+  }, [dispatch, album.id, isFavorite])
 
   return (
     <div
@@ -39,8 +40,10 @@ export function Player ({ album, hueShift, onFavoriteToggle }) {
         isLoading && '-is-loading'
       )}
       style={{
-        '--link-color': `#${shiftHue(params.linkcol, hueShift)}`,
-        '--background-color': `#${params.bgcol}`
+        '--linkcol-hue': color.hue,
+        '--linkcol-saturation': color.saturation,
+        '--linkcol-lightness': color.lightness,
+        '--bgcol': `#${params.bgcol}`
       }}
     >
       <h2 className='title'>{link}</h2>
@@ -51,10 +54,14 @@ export function Player ({ album, hueShift, onFavoriteToggle }) {
       <div className='controls'>
         <ToggleButton
           className='tracklist-toggle'
-          hook={[showTracklist, setShowTracklist]}
+          active={showTracklist}
+          update={setShowTracklist}
         >tracklist</ToggleButton>
 
-        <FavoriteToggle hook={[isFavorite, setIsFavorite]} />
+        <FavoriteToggle
+          active={isFavorite}
+          update={setIsFavorite}
+        />
       </div>
 
       <LazyIframe

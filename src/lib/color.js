@@ -8,3 +8,7 @@ export function randomizeHue (rgbString, maxShift) {
   const delta = Math.round(Math.random() * maxShift) % 360
   return shiftHue(rgbString, delta)
 }
+
+export function getHSV (rgbString) {
+  return new Color('#' + rgbString).toHSL()
+}

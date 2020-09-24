@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 
 function resolveKey (key) {
   if (typeof key === 'string') {
@@ -35,7 +35,7 @@ export function useStoredState (key, initial) {
 
 export function useStoredReducer (reducer, key, initial) {
   const [stored, setStored] = useStoredState(key, initial)
-  const [state, dispatch] = useReducer(stored)
+  const [state, dispatch] = useReducer(reducer, stored)
 
   useEffect(() => {
     setStored(state)

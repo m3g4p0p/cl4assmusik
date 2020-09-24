@@ -1,35 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { negate, assemble } from '../lib/util'
 import './toggle-button.scss'
 
 export function ToggleButton ({
   onClick,
-  hook = [],
+  update,
+  active = false,
+  reducer = negate,
   className = '',
   ...props
 }) {
-  const [state = false, setState] = hook
-  const [active, setActive] = useState(state)
-
   const handleClick = useCallback(event => {
     if (onClick) {
       onClick(event)
     }
 
-    setActive(negate)
-  }, [onClick])
-
-  useEffect(() => {
-    if (setState) {
-      setState(active)
-    }
-  }, [setState, active])
+    update(reducer)
+  }, [onClick, update, reducer])
 
   return (
     <button
       type='button'
       {...props}
-      className={assemble(className, 'toggle-button')}
+      className={assemble(
+        className,
+        'toggle-button',
+        active && '-is-active'
+      )}
       onClick={handleClick}
     />
   )
