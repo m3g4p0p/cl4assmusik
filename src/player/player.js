@@ -1,9 +1,10 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react'
+import React, { useCallback, useState, useMemo, useContext } from 'react'
 import { TagList } from '../tag-list/tag-list'
 import { RelatedList } from '../related-list/related-list'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
 import { ToggleButton } from '../toggle-button/toggle-button'
 import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
+import { FavoritesContext, isFavorite } from '../lib/favorites'
 import { useStoredState } from '../lib/storage'
 import { assemble } from '../lib/util'
 import { getHSV } from '../lib/color'
@@ -19,18 +20,12 @@ function encodeOptions (options) {
 }
 
 export function Player ({ album, showRelated, dispatch }) {
-  const { artist, title, tags, params, related } = album
-  const [isLoading, setIsLoading] = useState(true)
+  const { id, artist, title, tags, params, related } = album
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
-  const [isFavorite, setIsFavorite] = useStoredState(['favorite', album.id], false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [favorites] = useContext(FavoritesContext)
   const color = useMemo(() => getHSV(params.linkcol), [params.linkcol])
   const link = <a href={album.link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
-
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({ type: isFavorite ? 'add' : 'remove', id: album.id })
-    }
-  }, [dispatch, album.id, isFavorite])
 
   return (
     <div
@@ -54,13 +49,13 @@ export function Player ({ album, showRelated, dispatch }) {
       <div className='controls'>
         <ToggleButton
           className='tracklist-toggle'
-          active={showTracklist}
           update={setShowTracklist}
         >tracklist</ToggleButton>
 
         <FavoriteToggle
-          active={isFavorite}
-          update={setIsFavorite}
+          active={isFavorite(favorites, id)}
+          type='toggle_id'
+          payload={id}
         />
       </div>
 

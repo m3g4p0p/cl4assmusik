@@ -1,5 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import { useObserver, IntersectionObserver, ResizeObserver } from './lib/observer'
+import { FavoritesProvider } from './lib/favorites'
 import { useStoredState } from './lib/storage'
 import { firstForArtist } from './lib/data'
 import { createProvider } from './lib/provider'
@@ -11,11 +12,9 @@ import { PlayerList } from './player-list/player-list'
 export const IntersectionContext = createContext(null)
 export const SearchContext = createContext(null)
 export const SelectedContext = createContext(null)
-export const FavoritesContext = createContext(null)
 
 const SearchProvider = createProvider(SearchContext, useStoredState, 'search', '')
 const SelectedProvider = createProvider(SelectedContext, useStoredState, 'selected', firstForArtist)
-const FavoritesProvider = createProvider(FavoritesContext, useStoredState, 'show_favorites', false)
 
 const adjustHueShift = throttleRAF(() => {
   const scrollMax = document.documentElement.scrollHeight - window.innerHeight
@@ -35,7 +34,7 @@ export function App () {
     const observer = new ResizeObserver()
     observer.observe(document.body, adjustHueShift)
     return () => observer.disconnect()
-  }, [])
+  }, [observer])
 
   return (
     <div className='app'>

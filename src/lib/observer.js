@@ -49,6 +49,18 @@ function makeObserver (BaseObserver) {
 export const IntersectionObserver = makeObserver(window.IntersectionObserver)
 export const ResizeObserver = makeObserver(window.ResizeObserver)
 
+export function useObserver (Observer, options) {
+  const [observer, setObserver] = useState(null)
+
+  useEffect(() => {
+    const observer = new Observer(options)
+    setObserver(observer)
+    return () => observer.disconnect()
+  }, [Observer, options])
+
+  return observer
+}
+
 export function useObservedRef (observer, once) {
   const ref = useRef()
   const [entry, setEntry] = useState({})
@@ -65,20 +77,4 @@ export function useObservedRef (observer, once) {
   }, [ref, observer, once])
 
   return [ref, entry]
-}
-
-export function useObserver (Observer, options) {
-  const [observer, setObserver] = useState(null)
-
-  useEffect(() => {
-    const observer = new Observer(options)
-    setObserver(observer)
-
-    return () => {
-      observer.disconnect()
-      setObserver(null)
-    }
-  }, [Observer, options])
-
-  return observer
 }

@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useRef, useEffect, useState } from 'react'
-import { SearchContext, IntersectionContext, FavoritesContext } from '../app'
 import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
+import { SearchContext, IntersectionContext } from '../app'
+import { FavoritesContext } from '../lib/favorites'
 import { useObservedRef } from '../lib/observer'
 import { assemble, throttleRAF } from '../lib/util'
 import './search-box.scss'
@@ -77,7 +78,7 @@ function useFocusRef (setValue) {
 
 export function SearchBox (props) {
   const [search, setSearch] = useContext(SearchContext)
-  const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
+  const [favorites] = useContext(FavoritesContext)
   const inputRef = useFocusRef(setSearch)
   const observer = useContext(IntersectionContext)
   const [stickyRef, { isIntersecting }] = useObservedRef(observer)
@@ -99,8 +100,8 @@ export function SearchBox (props) {
         )}
       >
         <FavoriteToggle
-          active={showFavorites}
-          update={setShowFavorites}
+          active={favorites.show}
+          type='toggle_show'
         />
 
         <label className='search-field'>
