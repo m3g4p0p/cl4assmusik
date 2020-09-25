@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { FavoritesContext } from '../lib/favorites'
 import { ToggleButton } from '../toggle-button/toggle-button'
+import { FavoriteIcon } from '../favorite-icon/favorite-icon'
 import './favorite-toggle.scss'
 
 export function FavoriteToggle ({ active, type, payload, ...props }) {
@@ -13,6 +14,8 @@ export function FavoriteToggle ({ active, type, payload, ...props }) {
       update={() => {
         dispatch({ type, payload })
       }}
-    >{active ? '\u2605' : '\u2606'}</ToggleButton>
+    >
+      <FavoriteIcon active={active} />
+    </ToggleButton>
   )
 }

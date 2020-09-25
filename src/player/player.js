@@ -8,6 +8,7 @@ import { FavoritesContext, isFavorite } from '../lib/favorites'
 import { useStoredState } from '../lib/storage'
 import { assemble } from '../lib/util'
 import { getHSV } from '../lib/color'
+import { AlbumLink } from './album-link'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'
@@ -20,12 +21,12 @@ function encodeOptions (options) {
 }
 
 export function Player ({ album, showRelated, dispatch }) {
-  const { id, artist, title, tags, params, related } = album
+  const { id, title, tags, params, related } = album
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
   const [isLoading, setIsLoading] = useState(true)
   const [favorites] = useContext(FavoritesContext)
   const color = useMemo(() => getHSV(params.linkcol), [params.linkcol])
-  const link = <a href={album.link} target='_blank' rel='noopener noreferrer'>{artist} - {title}</a>
+  const link = <AlbumLink album={album} />
 
   return (
     <div
