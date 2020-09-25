@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import { SearchContext } from '../app'
-import { split, toggle, assemble } from '../lib/util'
+import { split, toggle, assemble, hasValues } from '../lib/util'
 import './tag-list.scss'
 
 export function TagList ({ tags, ...props }) {
@@ -13,7 +13,7 @@ export function TagList ({ tags, ...props }) {
     setSearch(search => assemble(toggle(split(search), tag)))
   }, [setSearch])
 
-  return tags ? (
+  return hasValues(tags) ? (
     <div className='tag-list'>{
       tags.map(tag => <a
         {...props}

@@ -36,6 +36,10 @@ export function negate (value) {
   return !value
 }
 
+export function hasValues (list) {
+  return list && list.length > 0
+}
+
 export function throttleRAF (callback) {
   let isScheduled = false
 

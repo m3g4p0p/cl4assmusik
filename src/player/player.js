@@ -18,7 +18,7 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ album, dispatch }) {
+export function Player ({ album, showRelated, dispatch }) {
   const { artist, title, tags, params, related } = album
   const [isLoading, setIsLoading] = useState(true)
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
@@ -49,7 +49,7 @@ export function Player ({ album, dispatch }) {
       <h2 className='title'>{link}</h2>
 
       <TagList tags={tags} />
-      <RelatedList related={related} />
+      <RelatedList related={showRelated && related} />
 
       <div className='controls'>
         <ToggleButton

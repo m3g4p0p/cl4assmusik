@@ -1,12 +1,12 @@
 import React, { useCallback, useContext } from 'react'
-import { SelectedContext, SearchContext } from '../app'
+import { SelectedContext } from '../app'
 import { getAlbum } from '../lib/data'
+import { hasValues } from '../lib/util'
 import './related-list.scss'
 
 export function RelatedList ({ related }) {
-  const albums = related.map(getAlbum)
+  const albums = related && related.map(getAlbum)
   const [, setSelected] = useContext(SelectedContext)
-  const [search] = useContext(SearchContext)
 
   const selectAlbum = useCallback(event => {
     const { id, related } = getAlbum(event.target.dataset.id)
@@ -15,7 +15,7 @@ export function RelatedList ({ related }) {
     setSelected(selected => selected.filter(id => !related.includes(id)).concat([id]))
   }, [setSelected])
 
-  return !search.trim() && albums.length ? (
+  return hasValues(albums) ? (
     <div className='related-list'>
       {albums.map(({ id, title, link }) => (
         <a onClick={selectAlbum} key={id} data-id={id} href={link}>{title}</a>

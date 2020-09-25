@@ -11,20 +11,25 @@ export function PlayerList () {
   const [showFavorites] = useContext(FavoritesContext)
   const [matches, setMatches] = useState(albums.map(getId))
   const [favorites, dispatchFavorites] = useReducer(favoritesReducer, [])
+  const splitRelated = search.trim() || showFavorites
 
   useEffect(() => {
-    setMatches(searchList(albums, ['artist', 'title', 'tags'], search).map(getId))
-  }, [search])
+    const matches = searchList(albums, ['artist', 'title', 'tags'], search).map(getId)
+    setMatches(showFavorites ? matches.filter(id => favorites.includes(id)) : matches)
+  }, [search, favorites, showFavorites])
 
   return (
     <ul>
       {albums.map(album => (
         <li key={album.id} hidden={
           !matches.includes(album.id) ||
-          (!search.trim() && !selected.includes(album.id)) ||
-          (showFavorites && !favorites.includes(album.id))
+          !(splitRelated || selected.includes(album.id))
         }>
-          <Player album={album} dispatch={dispatchFavorites} />
+          <Player
+            album={album}
+            showRelated={!splitRelated}
+            dispatch={dispatchFavorites}
+          />
         </li>
       ))}
     </ul>
