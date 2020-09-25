@@ -1,8 +1,8 @@
-import React, { useCallback, useContext, useRef, useEffect } from 'react'
+import React, { useCallback, useContext, useRef, useEffect, useState } from 'react'
 import { SearchContext, IntersectionContext, FavoritesContext } from '../app'
 import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
 import { useObservedRef } from '../lib/observer'
-import { assemble } from '../lib/util'
+import { assemble, throttleRAF } from '../lib/util'
 import './search-box.scss'
 
 function selectTag ({ target }) {
@@ -21,11 +21,34 @@ function selectTag ({ target }) {
   }
 }
 
-export function SearchBox (props) {
-  const [search, setSearch] = useContext(SearchContext)
-  const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
-  const observer = useContext(IntersectionContext)
-  const [stickyRef, { intersectionRatio }] = useObservedRef(observer)
+function useCanHide () {
+  const [canHide, setCanHide] = useState(false)
+
+  useEffect(() => {
+    let scrollY = window.scrollY
+
+    const handleScroll = throttleRAF(() => {
+      setCanHide(window.scrollY > scrollY)
+      scrollY = window.scrollY
+    })
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    if (canHide) {
+      return
+    }
+
+    const handle = window.setTimeout(setCanHide, 1000, true)
+    return () => window.clearTimeout(handle)
+  }, [canHide])
+
+  return canHide
+}
+
+function useFocusRef (setValue) {
   const inputRef = useRef()
 
   const handleKeyDown = useCallback(({ key, target }) => {
@@ -35,19 +58,31 @@ export function SearchBox (props) {
       key.length === 1 ||
       key === 'Backspace'
     )) {
-      setSearch(search => search.trim())
-      current.focus()
+      setValue(value => value.trim())
+      current.focus({ preventScroll: true })
     }
 
     if (key === 'Escape') {
-      setSearch('')
+      setValue('')
     }
-  }, [inputRef, setSearch])
+  }, [setValue])
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
+
+  return inputRef
+}
+
+export function SearchBox (props) {
+  const [search, setSearch] = useContext(SearchContext)
+  const [showFavorites, setShowFavorites] = useContext(FavoritesContext)
+  const inputRef = useFocusRef(setSearch)
+  const observer = useContext(IntersectionContext)
+  const [stickyRef, { isIntersecting }] = useObservedRef(observer)
+  const isSticky = !isIntersecting
+  const canHide = useCanHide() && isSticky
 
   return (
     <>
@@ -59,8 +94,8 @@ export function SearchBox (props) {
       <form
         className={assemble(
           'search-box',
-          intersectionRatio < 1 && '-is-sticky',
-          intersectionRatio === 0 && '-is-hiding'
+          isSticky && '-is-sticky',
+          canHide && '-can-hide'
         )}
       >
         <FavoriteToggle

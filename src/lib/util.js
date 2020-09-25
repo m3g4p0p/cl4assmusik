@@ -35,3 +35,20 @@ export function assemble (...values) {
 export function negate (value) {
   return !value
 }
+
+export function throttleRAF (callback) {
+  let isScheduled = false
+
+  return () => {
+    if (isScheduled) {
+      return
+    }
+
+    isScheduled = true
+
+    window.requestAnimationFrame(() => {
+      callback()
+      isScheduled = false
+    })
+  }
+}

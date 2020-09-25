@@ -11,13 +11,13 @@
   padding: 1em 0;
   background-color: black;
   box-shadow: 0 0 5px black;
+  transition: transform $timing;
 
   &.-is-sticky {
     transform: translateY(0);
-    transition: transform $timing;
   }
 
-  &.-is-hiding:not(:focus-within) {
+  &.-can-hide:not(:focus-within) {
     transform: translateY(-100%);
     transition-delay: 1s;
   }

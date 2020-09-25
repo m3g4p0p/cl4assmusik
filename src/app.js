@@ -3,6 +3,7 @@ import { useObserver, IntersectionObserver, ResizeObserver } from './lib/observe
 import { useStoredState } from './lib/storage'
 import { firstForArtist } from './lib/data'
 import { createProvider } from './lib/provider'
+import { throttleRAF } from './lib/util'
 import { Hero } from './hero/hero'
 import { SearchBox } from './search-box/search-box'
 import { PlayerList } from './player-list/player-list'
@@ -15,24 +16,6 @@ export const FavoritesContext = createContext(null)
 const SearchProvider = createProvider(SearchContext, useStoredState, 'search', '')
 const SelectedProvider = createProvider(SelectedContext, useStoredState, 'selected', firstForArtist)
 const FavoritesProvider = createProvider(FavoritesContext, useStoredState, 'show_favorites', false)
-const oberverOptions = { threshold: [0, 1] }
-
-function throttleRAF (callback) {
-  let isScheduled = false
-
-  return () => {
-    if (isScheduled) {
-      return
-    }
-
-    isScheduled = true
-
-    window.requestAnimationFrame(() => {
-      callback()
-      isScheduled = false
-    })
-  }
-}
 
 const adjustHueShift = throttleRAF(() => {
   const scrollMax = document.documentElement.scrollHeight - window.innerHeight
@@ -41,7 +24,7 @@ const adjustHueShift = throttleRAF(() => {
 })
 
 export function App () {
-  const observer = useObserver(IntersectionObserver, oberverOptions)
+  const observer = useObserver(IntersectionObserver)
 
   useEffect(() => {
     window.addEventListener('scroll', adjustHueShift)
