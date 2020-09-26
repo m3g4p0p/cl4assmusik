@@ -4,8 +4,9 @@ import './toggle-button.scss'
 
 export function ToggleButton ({
   onClick,
-  update,
-  reducer = negate,
+  active,
+  onToggle,
+  update = negate,
   className = '',
   ...props
 }) {
@@ -14,8 +15,8 @@ export function ToggleButton ({
       onClick(event)
     }
 
-    update(reducer)
-  }, [onClick, update, reducer])
+    onToggle(update)
+  }, [onClick, onToggle, update])
 
   return (
     <button
@@ -23,7 +24,8 @@ export function ToggleButton ({
       {...props}
       className={assemble(
         className,
-        'toggle-button'
+        'toggle-button',
+        active && '-is-active'
       )}
       onClick={handleClick}
     />

@@ -25,7 +25,8 @@ function favoritesReducer (state, action) {
   }
 }
 
-export function isFavorite (favorites, id) {
+export function isFavorite (favorites, album) {
+  const id = typeof album === 'object' ? album.id : album
   return favorites.ids.includes(id)
 }
 

@@ -1,14 +1,10 @@
-import React, { useCallback, useState, useMemo, useContext } from 'react'
-import { TagList } from '../tag-list/tag-list'
-import { RelatedList } from '../related-list/related-list'
+import React, { memo, useCallback, useState, useMemo } from 'react'
+import { PlayerHead } from '../player-head/player-head'
 import { LazyIframe } from '../lazy-iframe/lazy-iframe'
-import { ToggleButton } from '../toggle-button/toggle-button'
-import { FavoriteToggle } from '../favorite-toggle/favorite-toggle'
-import { FavoritesContext, isFavorite } from '../lib/favorites'
+import { AlbumLink } from '../album-link/album-link'
 import { useStoredState } from '../lib/storage'
 import { assemble } from '../lib/util'
 import { getHSV } from '../lib/color'
-import { AlbumLink } from './album-link'
 import './player.scss'
 
 const BASE_URL = 'https://bandcamp.com/EmbeddedPlayer/'
@@ -20,21 +16,15 @@ function encodeOptions (options) {
     .join('/')
 }
 
-export function Player ({ album, showRelated, dispatch }) {
-  const { id, title, tags, params, related } = album
+export const Player = memo(function Player ({ album, isFavorite, showRelated }) {
   const [showTracklist, setShowTracklist] = useStoredState(['tracklist', album.id], false)
   const [isLoading, setIsLoading] = useState(true)
-  const [favorites] = useContext(FavoritesContext)
+  const { title, params } = album
   const color = useMemo(() => getHSV(params.linkcol), [params.linkcol])
-  const link = <AlbumLink album={album} />
 
   return (
     <div
-      className={assemble(
-        'player',
-        showTracklist && '-with-tracklist',
-        isLoading && '-is-loading'
-      )}
+      className={'player'}
       style={{
         '--linkcol-hue': color.hue,
         '--linkcol-saturation': color.saturation,
@@ -42,23 +32,11 @@ export function Player ({ album, showRelated, dispatch }) {
         '--bgcol': `#${params.bgcol}`
       }}
     >
-      <h2 className='title'>{link}</h2>
-
-      <TagList tags={tags} />
-      <RelatedList related={showRelated && related} />
-
-      <div className='controls'>
-        <ToggleButton
-          className='tracklist-toggle'
-          update={setShowTracklist}
-        >tracklist</ToggleButton>
-
-        <FavoriteToggle
-          active={isFavorite(favorites, id)}
-          type='toggle_id'
-          payload={id}
-        />
-      </div>
+      <PlayerHead
+        album={album}
+        isFavorite={isFavorite}
+        onToggleTracklist={setShowTracklist}
+      />
 
       <LazyIframe
         title={title}
@@ -66,8 +44,12 @@ export function Player ({ album, showRelated, dispatch }) {
         onLoad={useCallback(() => {
           setIsLoading(false)
         }, [setIsLoading])}
+        className={assemble(
+          isLoading && '-is-loading',
+          showTracklist && '-is-expanded'
+        )}
         seamless
-      >{link}</LazyIframe>
+      ><AlbumLink album={album} /></LazyIframe>
     </div>
   )
-}
+})

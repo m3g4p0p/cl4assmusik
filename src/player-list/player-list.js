@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { SearchContext, SelectedContext } from '../app'
-import { FavoritesContext, filterFavorites } from '../lib/favorites'
+import { FavoritesContext, filterFavorites, isFavorite } from '../lib/favorites'
 import { Player } from '../player/player'
 import { albums, getId } from '../lib/data'
 import { searchList } from '../lib/util'
@@ -25,6 +25,7 @@ export function PlayerList () {
         }>
           <Player
             album={album}
+            isFavorite={isFavorite(favorites, album)}
             showRelated={!splitRelated}
           />
         </li>

@@ -11,7 +11,8 @@ export function FavoriteToggle ({ active, type, payload, ...props }) {
     <ToggleButton
       className='favorite-toggle'
       {...props}
-      update={() => {
+      active={active}
+      onToggle={() => {
         dispatch({ type, payload })
       }}
     >

@@ -1,0 +1,82 @@
+@import '../globals';
+
+.player-head {
+  $color: hsl(
+    calc(var(--linkcol-hue) + var(--hue-shift)),
+    calc(var(--linkcol-saturation) * 100%),
+    calc(var(--linkcol-lightness) * 100%)
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $color;
+
+  h2 {
+    margin: 0;
+    text-align: center;
+  }
+
+  a {
+    color: $color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .controls {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-self: stretch;
+    margin-top: 1rem;
+  }
+
+  .favorite-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .tracklist-toggle {
+    $arrow-width: 10px;
+    $arrow-ratio: 1.5;
+
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: calc(50% - #{$arrow-width} / 2);
+      width: 0;
+      height: 0;
+      border-left: $arrow-width / $arrow-ratio solid transparent;
+      border-right: $arrow-width / $arrow-ratio solid transparent;
+      border-top: $arrow-width solid $color;
+      transform: rotate(0);
+      transition: transform $timing;
+    }
+
+    &::before {
+      left: -$arrow-width * 2;
+    }
+
+    &::after {
+      right: -$arrow-width * 2;
+    }
+
+    &.-is-active {
+      &::before {
+        transform: rotate(180deg);
+      }
+
+      &::after {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+}
