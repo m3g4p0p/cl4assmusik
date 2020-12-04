@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7b1e1fc91515919c439b25e4cf4242b6",
+    "revision": "e8945bf2739bb851236b956c9aee81d7",
     "url": "/cl4assmusik/index.html"
   },
   {
-    "revision": "4a6ea777e986514c7ab9",
+    "revision": "2b7e344d29ca37ee52d7",
     "url": "/cl4assmusik/static/css/main.ddd6d31d.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cl4assmusik/static/js/2.63417fc9.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4a6ea777e986514c7ab9",
-    "url": "/cl4assmusik/static/js/main.5771217a.chunk.js"
+    "revision": "2b7e344d29ca37ee52d7",
+    "url": "/cl4assmusik/static/js/main.baec1090.chunk.js"
   },
   {
     "revision": "dc472a1142acf4cab4ab",
